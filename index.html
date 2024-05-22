@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        const productos = [
+  {id: 1, categoria: 12, nombre: "Cama"},
+  {id: 2, categoria: 12, nombre: "Sofá"},
+  {id: 3, categoria: 12, nombre: "Silla de escritorio"},
+  {id: 4, categoria: 2, nombre: "Lámpara de mesa"},
+  {id: 5, categoria: 2, nombre: "Lámpara de pie"},
+  {id: 6, categoria: 3, nombre: "Mesa de comedor"},
+  {id: 7, categoria: 3, nombre: "Mesa de café"},
+  {id: 8, categoria: 12, nombre: "Estantería"},
+  {id: 9, categoria: 12, nombre: "Bicicleta"},
+  {id: 10, categoria: 12, nombre: "Patines"}
+];
+
+const compras = [
+  { userId: 3, productId: 1 },
+  { userId: 3, productId: 2 },
+  { userId: 1, productId: 3},
+  { userId: 2, productId: 4 },
+  { userId: 2, productId: 5 },
+  { userId: 2, productId: 6 },
+  { userId: 1, productId: 7 },
+  { userId: 1, productId: 8 }
+];
+
+
+
+function encontrar_la_categoria_mas_comprada (arr){
+  const frecuencia = {};
+  arr.forEach(num => {
+    if (frecuencia[num]) {
+      frecuencia[num]++;
+    } else {
+      frecuencia[num] = 1;
+    }
+  });
+  // Variables para almacenar el número más repetido y su frecuencia
+  let maxFrecuencia = 0;
+  let numeroMasFrecuente = null;
+  // Recorrer el objeto de frecuencias para encontrar el número con mayor frecuencia
+  for (const num in frecuencia) {
+    if (frecuencia[num] > maxFrecuencia) {
+      maxFrecuencia = frecuencia[num];
+      numeroMasFrecuente = num;
+    }
+  }
+  return numeroMasFrecuente;
+}
+
+
+function mostrar_recomendaciones (id_product){
+    productos.forEach( porducto  => {
+        if(porducto.categoria == id_product){
+            console.log(porducto)
+        }
+    })
+}
+
+
+
+function recomendar_productos(idUser) {
+  const ids = compras.filter(x => x.userId === idUser).map(x => x.productId);
+  let comprar_categoria = []
+  for (let i = 0; i < ids.length; i++) {
+    productos.forEach( producto => {
+        if(producto.id === ids[i]){
+             comprar_categoria.push(producto.categoria)
+        }
+    } )
+}
+  const id_product = encontrar_la_categoria_mas_comprada(comprar_categoria)
+  mostrar_recomendaciones(id_product)
+}
+
+recomendar_productos(1);
+
+</script>
+</body>
+</html>
